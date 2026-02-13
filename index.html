@@ -41,7 +41,75 @@
             },
         };
     </script>
+    <style>
+        /*.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }*/
+
+        .vehicle-point {
+            width: 24px;
+            height: 24px;
+            background: rgba(29, 78, 216, 0.2);
+            border: 2px solid #1d4ed8;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .vehicle-point:hover,
+        .vehicle-point.active {
+            background: #1d4ed8;
+            box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.3);
+        }
+    </style>
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const options = document.querySelectorAll(".vehicle-option");
+        const hiddenInput = document.getElementById("tipoVehiculoInput");
+
+        options.forEach(option => {
+            option.addEventListener("click", function () {
+
+                // Quitar selección previa
+                options.forEach(opt => {
+                    opt.classList.remove("border-primary", "ring-2", "ring-primary", "shadow-md");
+
+                    const icon = opt.querySelector("span:first-child");
+                    const text = opt.querySelector("span:last-child");
+
+                    icon.classList.remove("text-primary");
+                    icon.classList.add("text-gray-400");
+
+                    text.classList.remove("text-primary");
+                });
+
+                // Marcar como seleccionado
+                this.classList.add("border-primary", "ring-2", "ring-primary", "shadow-md");
+
+                const selectedIcon = this.querySelector("span:first-child");
+                const selectedText = this.querySelector("span:last-child");
+
+                selectedIcon.classList.remove("text-gray-400");
+                selectedIcon.classList.add("text-primary");
+
+                selectedText.classList.add("text-primary");
+
+                // Guardar valor en input oculto
+                hiddenInput.value = this.dataset.value;
+            });
+        });
+
+    });
+</script>
+
 
 <body
     class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans antialiased transition-colors duration-200">
@@ -210,37 +278,83 @@
                             id="anio_fab" name="anio_fab" placeholder="2023" type="number" />
                     </div>
                     <div class="sm:col-span-6 mt-4">
-                        <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">Tipo de
-                            Vehículo</label>
+                        <label class="block text-sm font-medium text-text-light dark:text-text-dark mb-2">
+                            Tipo de Vehículo
+                        </label>
+
+                        <!-- Input oculto para enviar al backend -->
+                        <input type="hidden" name="tipo_vehiculo" id="tipoVehiculoInput">
+
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div
-                                class="border border-border-light dark:border-border-dark dark:bg-gray-800 rounded-lg p-3 cursor-pointer flex flex-col items-center justify-center hover:border-primary dark:hover:border-primary transition hover:shadow-md group">
-                                <span 
-                                    class="material-icons-outlined text-4xl text-gray-400 group-hover:text-primary mb-1">directions_car</span>
-                                <span 
-                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark group-hover:text-primary">Sedan</span>
+
+                            <!-- Sedan -->
+                            <div data-value="Sedan" class="vehicle-option border border-border-light dark:border-border-dark 
+                   dark:bg-gray-800 rounded-lg p-3 cursor-pointer 
+                   flex flex-col items-center justify-center 
+                   hover:border-primary dark:hover:border-primary 
+                   transition hover:shadow-md group">
+
+                                <span
+                                    class="material-icons-outlined text-4xl text-gray-400 mb-1 transition-colors duration-200">
+                                    directions_car
+                                </span>
+                                <span
+                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+                                    Sedan
+                                </span>
                             </div>
-                            <div
-                                class="border border-border-light dark:border-border-dark dark:bg-gray-800 rounded-lg p-3 cursor-pointer flex flex-col items-center justify-center hover:border-primary dark:hover:border-primary transition hover:shadow-md group">
+
+                            <!-- Camión -->
+                            <div data-value="Camion" class="vehicle-option border border-border-light dark:border-border-dark 
+                   dark:bg-gray-800 rounded-lg p-3 cursor-pointer 
+                   flex flex-col items-center justify-center 
+                   hover:border-primary dark:hover:border-primary 
+                   transition hover:shadow-md group">
+
                                 <span
-                                    class="material-icons-outlined text-4xl text-gray-400 group-hover:text-primary mb-1">local_shipping</span>
+                                    class="material-icons-outlined text-4xl text-gray-400 mb-1 transition-colors duration-200">
+                                    local_shipping
+                                </span>
                                 <span
-                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark group-hover:text-primary">Camión</span>
+                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+                                    Camión
+                                </span>
                             </div>
-                            <div
-                                class="border border-border-light dark:border-border-dark dark:bg-gray-800 rounded-lg p-3 cursor-pointer flex flex-col items-center justify-center hover:border-primary dark:hover:border-primary transition hover:shadow-md group">
+
+                            <!-- Van -->
+                            <div data-value="Van" class="vehicle-option border border-border-light dark:border-border-dark 
+                   dark:bg-gray-800 rounded-lg p-3 cursor-pointer 
+                   flex flex-col items-center justify-center 
+                   hover:border-primary dark:hover:border-primary 
+                   transition hover:shadow-md group">
+
                                 <span
-                                    class="material-icons-outlined text-4xl text-gray-400 group-hover:text-primary mb-1">airport_shuttle</span>
+                                    class="material-icons-outlined text-4xl text-gray-400 mb-1 transition-colors duration-200">
+                                    airport_shuttle
+                                </span>
                                 <span
-                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark group-hover:text-primary">Van</span>
+                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+                                    Van
+                                </span>
                             </div>
-                            <div
-                                class="border border-border-light dark:border-border-dark dark:bg-gray-800 rounded-lg p-3 cursor-pointer flex flex-col items-center justify-center hover:border-primary dark:hover:border-primary transition hover:shadow-md group">
+
+                            <!-- Moto -->
+                            <div data-value="Moto" class="vehicle-option border border-border-light dark:border-border-dark 
+                   dark:bg-gray-800 rounded-lg p-3 cursor-pointer 
+                   flex flex-col items-center justify-center 
+                   hover:border-primary dark:hover:border-primary 
+                   transition hover:shadow-md group">
+
                                 <span
-                                    class="material-icons-outlined text-4xl text-gray-400 group-hover:text-primary mb-1">two_wheeler</span>
+                                    class="material-icons-outlined text-4xl text-gray-400 mb-1 transition-colors duration-200">
+                                    two_wheeler
+                                </span>
                                 <span
-                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark group-hover:text-primary">Moto</span>
+                                    class="text-xs font-medium text-text-muted-light dark:text-text-muted-dark transition-colors duration-200">
+                                    Moto
+                                </span>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -356,28 +470,35 @@
                                 <input
                                     class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
                                     type="checkbox" />
-                                <span class="text-sm text-text-light dark:text-text-dark">Audio / Micrófono</span>
+                                <span class="text-sm text-text-light dark:text-text-dark">Audio</span>
                             </label>
                             <label
                                 class="flex items-center space-x-3 p-3 border border-border-light dark:border-border-dark rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
                                 <input
                                     class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
                                     type="checkbox" />
-                                <span class="text-sm text-text-light dark:text-text-dark">Botón Pánico</span>
+                                <span class="text-sm text-text-light dark:text-text-dark">GSM</span>
                             </label>
                             <label
                                 class="flex items-center space-x-3 p-3 border border-border-light dark:border-border-dark rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
                                 <input
                                     class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
                                     type="checkbox" />
-                                <span class="text-sm text-text-light dark:text-text-dark">Relay (Corte)</span>
+                                <span class="text-sm text-text-light dark:text-text-dark">GPS</span>
                             </label>
                             <label
                                 class="flex items-center space-x-3 p-3 border border-border-light dark:border-border-dark rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
                                 <input
                                     class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
                                     type="checkbox" />
-                                <span class="text-sm text-text-light dark:text-text-dark">Sensor Combustible</span>
+                                <span class="text-sm text-text-light dark:text-text-dark">Relay</span>
+                            </label>
+                            <label
+                                class="flex items-center space-x-3 p-3 border border-border-light dark:border-border-dark rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
+                                <input
+                                    class="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
+                                    type="checkbox" />
+                                <span class="text-sm text-text-light dark:text-text-dark">Micrófono</span>
                             </label>
                         </div>
                     </div>
@@ -430,7 +551,29 @@
                                 </div>
                                 <div class="ml-3 text-sm">
                                     <label class="font-medium text-text-light dark:text-text-dark"
+                                        for="cambio_equipo">Reinstalación</label>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input
+                                        class="focus:ring-primary h-4 w-4 text-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
+                                        id="cambio_equipo" name="trabajo_realizado" type="checkbox" />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label class="font-medium text-text-light dark:text-text-dark"
                                         for="cambio_equipo">Cambio de Equipo</label>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input
+                                        class="focus:ring-primary h-4 w-4 text-primary border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded"
+                                        id="cambio_chip" name="trabajo_realizado" type="checkbox" />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label class="font-medium text-text-light dark:text-text-dark"
+                                        for="cambio_chip">Cambio de Antena</label>
                                 </div>
                             </div>
                             <div class="flex items-start">
@@ -452,7 +595,7 @@
                                 </div>
                                 <div class="ml-3 text-sm">
                                     <label class="font-medium text-text-light dark:text-text-dark"
-                                        for="desinstalacion">Desinstalación</label>
+                                        for="desinstalacion">Otros</label>
                                 </div>
                             </div>
                         </div>
@@ -497,11 +640,106 @@
                                     class="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md"
                                     id="observaciones" name="observaciones"
                                     placeholder="Detalles técnicos adicionales, estado del vehículo antes de la instalación, etc."
-                                    rows="4"></textarea>
+                                    rows="6"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div
+                    class="bg-surface-light dark:bg-surface-dark shadow rounded-lg overflow-hidden border border-border-light dark:border-border-dark">
+                    <div
+                        class="px-4 py-5 sm:px-6 border-b border-border-light dark:border-border-dark bg-gray-50 dark:bg-gray-800/50">
+                        <div class="flex items-center gap-2">
+                            <span class="material-icons-outlined text-primary">directions_car</span>
+                            <h3 class="text-lg leading-6 font-medium text-text-light dark:text-text-dark">Diagrama
+                                (Vista Aérea)</h3>
+
+                            <span
+                                class="text-[10px] uppercase tracking-wide text-gray-500 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-2 py-0.5 rounded-full self-center">
+                                Marcar Ubicación
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Body -->
+                    <div
+                        class="p-6 flex flex-col items-center justify-center relative bg-gray-50 dark:bg-gray-800/50 min-h-[260px]">
+
+                        <div class="relative w-full max-w-[420px]">
+
+                            <!-- SVG Vehículo Horizontal -->
+                            <svg class="w-full h-auto drop-shadow-md" viewBox="0 0 400 200"
+                                xmlns="http://www.w3.org/2000/svg">
+
+                                <!-- Car Body -->
+                                <rect x="40" y="50" width="320" height="100" rx="50"
+                                    class="fill-white dark:fill-gray-700 stroke-gray-400 dark:stroke-gray-500 stroke-2" />
+
+                                <!-- Front windshield -->
+                                <rect x="60" y="65" width="70" height="70" rx="20"
+                                    class="fill-gray-200 dark:fill-gray-600" />
+
+                                <!-- Roof -->
+                                <rect x="140" y="60" width="120" height="80" rx="30"
+                                    class="fill-gray-100 dark:fill-gray-600" />
+
+                                <!-- Rear windshield -->
+                                <rect x="280" y="65" width="70" height="70" rx="20"
+                                    class="fill-gray-200 dark:fill-gray-600" />
+
+                                <!-- Wheels -->
+                                <circle cx="100" cy="40" r="18" class="fill-gray-800" />
+                                <circle cx="300" cy="40" r="18" class="fill-gray-800" />
+                                <circle cx="100" cy="160" r="18" class="fill-gray-800" />
+                                <circle cx="300" cy="160" r="18" class="fill-gray-800" />
+
+                            </svg>
+
+                            <!-- 🔴 Puntos Interactivos -->
+
+                            <div class="vehicle-point absolute left-[4%] top-1/2 -translate-y-1/2"
+                                data-zone="Parachoques Delantero"></div>
+
+                            <div class="vehicle-point absolute left-[18%] top-1/2 -translate-y-1/2" data-zone="Capó">
+                            </div>
+
+                            <div class="vehicle-point absolute left-[38%] top-[25%]"
+                                data-zone="Puerta Delantera Izquierda"></div>
+
+                            <div class="vehicle-point absolute left-[38%] bottom-[25%]"
+                                data-zone="Puerta Delantera Derecha"></div>
+
+                            <div class="vehicle-point absolute left-[62%] top-[25%]"
+                                data-zone="Puerta Trasera Izquierda"></div>
+
+                            <div class="vehicle-point absolute left-[62%] bottom-[25%]"
+                                data-zone="Puerta Trasera Derecha"></div>
+
+                            <div class="vehicle-point absolute right-[4%] top-1/2 -translate-y-1/2"
+                                data-zone="Maletera"></div>
+
+                        </div>
+
+                        <p class="text-xs text-center text-gray-400 mt-4">
+                            Toque una zona para registrar daños u observaciones.
+                        </p>
+
+                    </div>
+                </div>
+                
+            <div
+                class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-dashed border-2 border-gray-300 dark:border-gray-600 p-4 text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+                <div class="flex flex-col items-center justify-center gap-2 py-4">
+                    <div
+                        class="w-12 h-12 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                        <span class="material-icons-outlined text-primary">add_a_photo</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Adjuntar Fotos de
+                        Instalación</span>
+                    <span class="text-xs text-gray-400">Tap para tomar foto o seleccionar</span>
+                </div>
+            </div>
+
+
             </div>
             <div class="flex justify-end pt-5 border-t border-gray-200 dark:border-gray-700">
                 <button
